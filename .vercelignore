@@ -2,5 +2,7 @@ node_modules
 *.log
 .env
 .DS_Store
-backend/data/*.json.tmp
 *.tmp
+backend/data/*.json.tmp
+backend/node_modules
+.vercel
