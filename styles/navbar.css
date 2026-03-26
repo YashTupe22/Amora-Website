@@ -1,0 +1,210 @@
+/* =============================================
+   AMORA CAFÉ — Botanical Elegance Navbar
+   ============================================= */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 20px 0;
+    transition: all var(--transition-base);
+    /* transparent over hero */
+}
+
+.navbar.scrolled {
+    background: rgba(248, 245, 239, 0.94);   /* warm ivory glass */
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-bottom: 1px solid rgba(143, 175, 140, 0.25);
+    box-shadow: 0 2px 20px rgba(61, 107, 79, 0.08);
+    padding: 12px 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo — Cormorant Garamond italic, forest green when scrolled, ivory on dark hero */
+.nav-logo {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.9rem;
+    font-weight: 300;
+    color: var(--color-ivory);
+    letter-spacing: 1.5px;
+    transition: all var(--transition-fast);
+}
+
+.navbar.scrolled .nav-logo {
+    color: var(--color-forest);
+}
+
+.nav-logo:hover {
+    opacity: 0.85;
+}
+
+.nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+}
+
+.nav-link {
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(248, 245, 239, 0.75);
+    position: relative;
+    padding: 4px 0;
+    transition: color var(--transition-base);
+}
+
+.navbar.scrolled .nav-link {
+    color: var(--color-text-muted);
+}
+
+/* Animated underline — gold */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-gold);
+    transition: width var(--transition-base);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--color-gold) !important;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* Nav Actions */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Cart Toggle */
+.cart-toggle {
+    position: relative;
+    color: rgba(248, 245, 239, 0.80);
+    padding: 8px;
+    transition: color var(--transition-fast);
+}
+
+.navbar.scrolled .cart-toggle {
+    color: var(--color-text-muted);
+}
+
+.cart-toggle:hover {
+    color: var(--color-gold);
+}
+
+.cart-badge {
+    position: absolute;
+    top: 2px;
+    right: 0px;
+    min-width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-gold);
+    color: var(--color-forest);
+    font-size: 0.58rem;
+    font-weight: 700;
+    border-radius: 0;
+    padding: 0 3px;
+    animation: badgePop 0.3s ease;
+}
+
+@keyframes badgePop {
+    0%   { transform: scale(0); }
+    50%  { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* Hamburger */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    width: 32px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--color-ivory);
+    transition: all var(--transition-base);
+    transform-origin: center;
+}
+
+.navbar.scrolled .hamburger span {
+    background: var(--color-forest);
+}
+
+.hamburger.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ── Mobile Nav ── */
+@media (max-width: 768px) {
+    .hamburger { display: flex; }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 245, 239, 0.97);
+        backdrop-filter: blur(30px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all var(--transition-base);
+        z-index: -1;
+    }
+
+    .nav-links.active {
+        opacity: 1;
+        visibility: visible;
+        z-index: 1;
+    }
+
+    /* On mobile overlay, links default to forest */
+    .nav-link {
+        color: var(--color-text-muted) !important;
+        font-size: 0.82rem;
+        letter-spacing: 5px;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--color-forest) !important;
+    }
+}

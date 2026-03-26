@@ -1,0 +1,14 @@
+{
+  "name": "amora-cafe-website",
+  "version": "1.0.0",
+  "description": "Amora Café - Complete website with backend ordering system",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "cd backend && npm run dev",
+    "install-backend": "cd backend && npm install"
+  },
+  "keywords": ["cafe", "restaurant", "ordering"],
+  "author": "Amora Café",
+  "license": "MIT"
+}

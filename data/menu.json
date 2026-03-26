@@ -1,0 +1,307 @@
+{
+  "categories": [
+    { "id": "specials",  "name": "Chef's Specials", "icon": "⭐" },
+    { "id": "coffee",    "name": "Coffee",           "icon": "☕" },
+    { "id": "beverages", "name": "Beverages",        "icon": "🥤" },
+    { "id": "brunch",    "name": "Brunch",           "icon": "🥞" },
+    { "id": "starters",  "name": "Starters",         "icon": "🍽️" },
+    { "id": "mains",     "name": "Mains",            "icon": "🍝" },
+    { "id": "desserts",  "name": "Desserts",         "icon": "🍰" }
+  ],
+  "items": [
+    {
+      "id": 1, "name": "Truffle Mushroom Risotto",
+      "description": "Creamy arborio rice with wild mushrooms, truffle oil & aged parmesan",
+      "price": 445, "category": "specials",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.01 PM.jpeg",
+      "isVeg": true, "isSpecial": true, "badge": "Chef's Pick"
+    },
+    {
+      "id": 2, "name": "Amora Signature Waffles",
+      "description": "Belgian waffles, fresh berries, whipped cream & salted caramel drizzle",
+      "price": 385, "category": "specials",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.03 PM (2).jpeg",
+      "isVeg": true, "isSpecial": true, "badge": "Most Loved"
+    },
+    {
+      "id": 3, "name": "Matcha Tiramisu",
+      "description": "Japanese matcha layered with mascarpone cream & ladyfinger biscuits",
+      "price": 325, "category": "specials",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.07 PM (1).jpeg",
+      "isVeg": true, "isSpecial": true, "badge": "Chef's Pick"
+    },
+    {
+      "id": 4, "name": "Smoked Chicken Club",
+      "description": "Triple-decker smoked chicken, crisp bacon, avocado, lettuce & sriracha mayo",
+      "price": 425, "category": "specials",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.13 PM.jpeg",
+      "isVeg": false, "isSpecial": true, "badge": "New"
+    },
+    {
+      "id": 5, "name": "Rose Cold Brew",
+      "description": "18-hour cold brew infused with rose petals, cardamom & condensed milk",
+      "price": 295, "category": "specials",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.10 PM (1).jpeg",
+      "isVeg": true, "isSpecial": true, "badge": "Signature"
+    },
+    {
+      "id": 6, "name": "Garden Shakshuka",
+      "description": "Spiced tomato sauce, poached eggs, feta & herbs served with sourdough",
+      "price": 345, "category": "specials",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.14 PM (1).jpeg",
+      "isVeg": true, "isSpecial": true, "badge": "Weekend Special"
+    },
+    {
+      "id": 10, "name": "Classic Cappuccino",
+      "description": "Double-shot espresso with velvety steamed milk & artistic foam",
+      "price": 195, "category": "coffee",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.10 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 11, "name": "Caramel Latte",
+      "description": "Smooth espresso, steamed milk & house-made caramel drizzle",
+      "price": 225, "category": "coffee",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.10 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 12, "name": "Hazelnut Mocha",
+      "description": "Rich chocolate, hazelnut syrup, espresso & whipped cream",
+      "price": 255, "category": "coffee",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.10 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 13, "name": "Rose Cold Brew",
+      "description": "18-hour slow-steeped cold brew with rose & condensed milk over ice",
+      "price": 295, "category": "coffee",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.10 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 14, "name": "Dalgona Whipped Coffee",
+      "description": "Whipped coffee cloud on velvety oat milk, served hot or iced",
+      "price": 245, "category": "coffee",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.10 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 15, "name": "Spanish Latte",
+      "description": "Espresso with sweetened condensed milk & steamed milk — silky & rich",
+      "price": 235, "category": "coffee",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.10 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 20, "name": "Espresso Martini Mocktail",
+      "description": "Shaken espresso, vanilla syrup, soda water — zero alcohol, full buzz",
+      "price": 245, "category": "beverages",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.03 PM.jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 21, "name": "Berry Bliss Smoothie",
+      "description": "Mixed berries, banana, Greek yogurt & honey",
+      "price": 225, "category": "beverages",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.03 PM.jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 22, "name": "Tropical Sunrise",
+      "description": "Mango, passion fruit, pineapple & coconut water",
+      "price": 215, "category": "beverages",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.03 PM.jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 23, "name": "Fresh Mint Lemonade",
+      "description": "House-squeezed lemonade with crushed mint & sparkling water",
+      "price": 175, "category": "beverages",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.03 PM.jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 24, "name": "Watermelon Cooler",
+      "description": "Fresh watermelon juice, basil seeds, lime & a pinch of chaat masala",
+      "price": 195, "category": "beverages",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.03 PM.jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 25, "name": "Saffron Milk",
+      "description": "Warm or chilled premium saffron-infused milk with pistachio dust",
+      "price": 185, "category": "beverages",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.03 PM.jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 30, "name": "Amora Full Brunch Plate",
+      "description": "Scrambled eggs, grilled tomato, sourdough toast, hash browns & fresh fruit",
+      "price": 495, "category": "brunch",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.01 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 31, "name": "Garden Shakshuka",
+      "description": "Spiced tomato sauce, poached eggs, feta & herbs served with sourdough",
+      "price": 345, "category": "brunch",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.14 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 32, "name": "Signature Waffles",
+      "description": "Belgian waffles, fresh strawberries, whipped cream & maple syrup",
+      "price": 385, "category": "brunch",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.03 PM (2).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 33, "name": "Smashed Avocado Toast",
+      "description": "Sourdough toast, smashed avocado, poached egg, microgreens & chili flakes",
+      "price": 295, "category": "brunch",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.01 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 34, "name": "French Toast Stack",
+      "description": "Brioche French toast, berry compote, cream cheese frosting & candied pecans",
+      "price": 355, "category": "brunch",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.03 PM (2).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 40, "name": "Bruschetta Trio",
+      "description": "Toasted ciabatta with tomato-basil, olive tapenade & ricotta-honey",
+      "price": 275, "category": "starters",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.13 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 41, "name": "Crispy Chicken Wings",
+      "description": "Spiced fried wings with honey-sriracha glaze & ranch dip",
+      "price": 345, "category": "starters",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.13 PM.jpeg",
+      "isVeg": false, "isSpecial": false
+    },
+    {
+      "id": 42, "name": "Loaded Nachos",
+      "description": "Tortilla chips, cheese sauce, jalapeños, salsa & sour cream",
+      "price": 295, "category": "starters",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.13 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 43, "name": "Mushroom Croquettes",
+      "description": "Crispy breaded croquettes stuffed with truffle mushroom & gruyère",
+      "price": 315, "category": "starters",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.13 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 44, "name": "Prawn Tempura",
+      "description": "Light Japanese-style battered prawns with ponzu dipping sauce",
+      "price": 395, "category": "starters",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.13 PM.jpeg",
+      "isVeg": false, "isSpecial": false
+    },
+    {
+      "id": 45, "name": "Caprese Stack",
+      "description": "Buffalo mozzarella, heirloom tomatoes, basil oil & aged balsamic",
+      "price": 325, "category": "starters",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.13 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 50, "name": "Penne Alfredo",
+      "description": "Al dente penne in creamy parmesan sauce, garlic & fresh herbs",
+      "price": 365, "category": "mains",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.12 PM.jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 51, "name": "Truffle Mushroom Risotto",
+      "description": "Creamy arborio rice with wild mushrooms, white wine & truffle oil",
+      "price": 445, "category": "mains",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.12 PM.jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 52, "name": "Margherita Thin Crust",
+      "description": "San Marzano tomatoes, fresh mozzarella, basil & EVOO on crisp thin crust",
+      "price": 395, "category": "mains",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.12 PM.jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 53, "name": "Grilled Chicken Club",
+      "description": "Herb-marinated chicken breast, lettuce, tomato & garlic aioli on sourdough",
+      "price": 345, "category": "mains",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.12 PM.jpeg",
+      "isVeg": false, "isSpecial": false
+    },
+    {
+      "id": 54, "name": "Thai Basil Stir-Fry",
+      "description": "Wok-tossed vegetables, tofu, Thai basil & chili garlic sauce with steamed rice",
+      "price": 355, "category": "mains",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.12 PM.jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 55, "name": "Amora Burrito Bowl",
+      "description": "Chipotle rice, black beans, corn salsa, guacamole, sour cream & pico de gallo",
+      "price": 375, "category": "mains",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.12 PM.jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 56, "name": "Butter Chicken Naan Box",
+      "description": "Slow-cooked butter chicken, garlic naan & pickled onion — comfort elevated",
+      "price": 425, "category": "mains",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.12 PM.jpeg",
+      "isVeg": false, "isSpecial": false
+    },
+    {
+      "id": 60, "name": "Chocolate Lava Cake",
+      "description": "Warm molten chocolate cake with vanilla bean ice cream",
+      "price": 295, "category": "desserts",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.07 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 61, "name": "New York Cheesecake",
+      "description": "Classic creamy cheesecake with mixed berry compote & whipped cream",
+      "price": 275, "category": "desserts",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.07 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 62, "name": "Crème Brûlée",
+      "description": "Vanilla custard with caramelized sugar crust & fresh berries",
+      "price": 285, "category": "desserts",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.07 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 63, "name": "Affogato",
+      "description": "Vanilla gelato drowned in a shot of hot espresso",
+      "price": 225, "category": "desserts",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.07 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 64, "name": "Matcha Tiramisu",
+      "description": "Japanese matcha layered with mascarpone cream & ladyfinger biscuits",
+      "price": 325, "category": "desserts",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.07 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    },
+    {
+      "id": 65, "name": "Gulab Jamun Cheesecake",
+      "description": "Fusion cheesecake with gulab jamun base, saffron cream & rose petal dust",
+      "price": 315, "category": "desserts",
+      "image": "Images/WhatsApp Image 2026-03-26 at 3.03.07 PM (1).jpeg",
+      "isVeg": true, "isSpecial": false
+    }
+  ]
+}
