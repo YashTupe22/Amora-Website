@@ -148,13 +148,36 @@
 
     async function initMenu() {
         try {
-            const response = await fetch('data/menu.json');
+            const menuPaths = ['data/menu.json', './data/menu.json', '/data/menu.json'];
+            let response = null;
+
+            for (const path of menuPaths) {
+                const res = await fetch(path);
+                if (res.ok) {
+                    response = res;
+                    break;
+                }
+            }
+
+            if (!response) {
+                throw new Error('Menu JSON could not be loaded from known paths');
+            }
+
             menuData = await response.json();
             renderCategoryPills();
             renderMenuItems('all');
             renderSpecials();
+
+            const menuSection = document.getElementById('menu');
+            if (menuSection) {
+                menuSection.classList.add('visible');
+            }
         } catch (err) {
             console.error('Failed to load menu:', err);
+            const container = document.getElementById('menu-grid');
+            if (container) {
+                container.innerHTML = `<div class="menu-empty"><p>Menu is loading. Please refresh once.</p></div>`;
+            }
         }
     }
 

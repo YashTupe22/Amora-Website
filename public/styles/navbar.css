@@ -186,6 +186,7 @@
         gap: 28px;
         opacity: 0;
         visibility: hidden;
+        pointer-events: none;
         transition: all var(--transition-base);
         z-index: -1;
     }
@@ -193,7 +194,8 @@
     .nav-links.active {
         opacity: 1;
         visibility: visible;
-        z-index: 1;
+        pointer-events: auto;
+        z-index: 1001;
     }
 
     /* On mobile overlay, links default to forest */

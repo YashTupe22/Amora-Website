@@ -2016,3 +2016,11 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
     .hero { min-height: auto; padding: 20px; }
     .menu-card { break-inside: avoid; }
 }
+
+/* --- Mobile Menu Fail-safe Visibility --- */
+@media (max-width: 768px) {
+    #menu.reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
