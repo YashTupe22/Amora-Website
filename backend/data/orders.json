@@ -1,1 +1,39 @@
-[]
+[
+  {
+    "id": "order-1774537252045",
+    "orderNum": "A001",
+    "status": "new",
+    "items": [
+      {
+        "id": "pasta_alfredo",
+        "name": "Pasta Alfredo",
+        "price": 280,
+        "qty": 1
+      },
+      {
+        "id": "cold_coffee",
+        "name": "Cold Coffee",
+        "price": 150,
+        "qty": 2
+      }
+    ],
+    "total": 580,
+    "distance": 0.1,
+    "customer": {
+      "name": "Test Customer",
+      "phone": "+91 98765 43210",
+      "email": "test@example.com"
+    },
+    "address": {
+      "flatNumber": "101",
+      "wingName": "A Wing",
+      "deliveryNotes": "Ring the bell twice"
+    },
+    "userLocation": {
+      "lat": 18.4545,
+      "lng": 73.8565
+    },
+    "placedAt": "2026-03-26T15:00:52.046Z",
+    "updatedAt": "2026-03-26T15:00:52.046Z"
+  }
+]

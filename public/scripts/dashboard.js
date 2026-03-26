@@ -9,11 +9,11 @@
     // Configuration
     const API_BASE = window.location.hostname === 'localhost' 
         ? 'http://localhost:3001/api' 
-        : 'https://amora-cafe.vercel.app/api';
+        : `${window.location.protocol}//${window.location.hostname}/api`;
     
     const SOCKET_URL = window.location.hostname === 'localhost' 
         ? 'http://localhost:3001' 
-        : 'https://amora-cafe.vercel.app';
+        : `${window.location.protocol}//${window.location.hostname}`;
 
     let socket = null;
     let orders = [];
@@ -192,6 +192,17 @@
                     </div>
                     <span class="order-status-badge status-${order.status}">${formatStatus(order.status)}</span>
                 </div>
+                
+                ${order.customer ? `
+                    <div class="order-customer">
+                        <div class="customer-info">
+                            <strong>👤 ${order.customer.name}</strong>
+                            <span class="customer-phone">📱 ${order.customer.phone}</span>
+                            ${order.customer.email ? `<span class="customer-email">📧 ${order.customer.email}</span>` : ''}
+                        </div>
+                    </div>
+                ` : ''}
+                
                 <div class="order-items">
                     ${order.items.map(item => `
                         <div class="order-item-row">
@@ -203,11 +214,14 @@
                         </div>
                     `).join('')}
                 </div>
+                
                 ${order.address ? `
                     <div class="order-address">
                         <strong>📍 Delivery:</strong> Flat ${order.address.flatNumber}, ${order.address.wingName}
+                        ${order.address.deliveryNotes ? `<div class="delivery-notes">📝 ${order.address.deliveryNotes}</div>` : ''}
                     </div>
                 ` : ''}
+                
                 <div class="order-card-footer">
                     <div class="order-total"><span>Total</span> ₹${order.total}</div>
                     <div class="action-btns">

@@ -498,14 +498,64 @@
 </div>
 
 
-<!-- Additional styles for order address -->
+<!-- Additional styles for order address and customer info -->
 <style>
+    .order-customer {
+        padding: 12px 20px;
+        background: rgba(61,107,79,0.05);
+        border-bottom: 1px solid rgba(143,175,140,0.15);
+        font-size: 0.80rem;
+    }
+    
+    .customer-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .customer-info strong {
+        color: var(--forest);
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+    
+    .customer-phone, .customer-email {
+        color: var(--muted);
+        font-size: 0.76rem;
+        display: block;
+    }
+    
     .order-address {
         padding: 12px 20px;
         background: rgba(143,175,140,0.08);
         border-top: 1px solid rgba(143,175,140,0.15);
         font-size: 0.82rem;
         color: var(--text);
+    }
+    
+    .delivery-notes {
+        margin-top: 6px;
+        padding: 8px 12px;
+        background: rgba(201,168,76,0.10);
+        border-radius: 6px;
+        font-style: italic;
+        font-size: 0.78rem;
+        color: var(--text);
+        border-left: 3px solid var(--gold);
+    }
+    
+    @media (max-width: 640px) {
+        .customer-info {
+            gap: 2px;
+        }
+        
+        .customer-info strong {
+            font-size: 0.82rem;
+        }
+        
+        .customer-phone, .customer-email {
+            font-size: 0.74rem;
+        }
     }
 </style>
 

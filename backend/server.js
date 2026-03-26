@@ -100,7 +100,7 @@ app.get('/api/orders', async (req, res) => {
 app.post('/api/orders', async (req, res) => {
     try {
         console.log('Received order request:', req.body);
-        const { items, total, distance, address, userLocation } = req.body;
+        const { items, total, distance, address, customer, userLocation } = req.body;
         
         if (!items || !Array.isArray(items) || items.length === 0) {
             console.log('Invalid items:', items);
@@ -109,6 +109,10 @@ app.post('/api/orders', async (req, res) => {
         if (!total || typeof total !== 'number') {
             console.log('Invalid total:', total);
             return res.status(400).json({ success: false, error: 'Invalid total' });
+        }
+        if (!customer || !customer.name || !customer.phone) {
+            console.log('Invalid customer info:', customer);
+            return res.status(400).json({ success: false, error: 'Customer name and phone required' });
         }
         if (!address || !address.flatNumber || !address.wingName) {
             console.log('Invalid address:', address);
@@ -125,7 +129,16 @@ app.post('/api/orders', async (req, res) => {
             items: items.map(i => ({ id: i.id, name: i.name, price: i.price, qty: i.qty })),
             total,
             distance: parseFloat(distance?.toFixed(1) || 0),
-            address: { flatNumber: address.flatNumber.trim(), wingName: address.wingName.trim() },
+            customer: {
+                name: customer.name.trim(),
+                phone: customer.phone.trim(),
+                email: customer.email?.trim() || null
+            },
+            address: { 
+                flatNumber: address.flatNumber.trim(), 
+                wingName: address.wingName.trim(),
+                deliveryNotes: address.deliveryNotes?.trim() || null
+            },
             userLocation: userLocation || null,
             placedAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()

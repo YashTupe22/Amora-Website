@@ -277,12 +277,30 @@ const Cart = {
 
     // --- Submit Address and Place Order ---
     async submitAddress() {
+        // Get all form data
+        const customerName = document.getElementById('customer-name')?.value.trim();
+        const customerPhone = document.getElementById('customer-phone')?.value.trim();
+        const customerEmail = document.getElementById('customer-email')?.value.trim();
         const flatNumber = document.getElementById('flat-number')?.value.trim();
         const wingName = document.getElementById('wing-name')?.value.trim();
+        const deliveryNotes = document.getElementById('delivery-notes')?.value.trim();
         
         // Validation
-        if (!flatNumber || !wingName) {
-            this.showToast('Please enter both flat number and wing name');
+        if (!customerName || !customerPhone || !flatNumber || !wingName) {
+            this.showToast('Please fill in all required fields (marked with *)');
+            return;
+        }
+        
+        // Phone number validation
+        const phoneRegex = /^[\+]?[0-9]{10,13}$/;
+        if (!phoneRegex.test(customerPhone.replace(/\s/g, ''))) {
+            this.showToast('Please enter a valid mobile number');
+            return;
+        }
+        
+        // Email validation (if provided)
+        if (customerEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
+            this.showToast('Please enter a valid email address');
             return;
         }
         
@@ -292,14 +310,26 @@ const Cart = {
         // Show loading
         this.showToast('Placing your order...');
         
-        // Place order with address
-        await this.placeOrder(this.deliveryDistance, { flatNumber, wingName });
+        // Place order with complete customer info
+        const customerInfo = {
+            name: customerName,
+            phone: customerPhone,
+            email: customerEmail || null
+        };
+        
+        const addressInfo = {
+            flatNumber,
+            wingName,
+            deliveryNotes: deliveryNotes || null
+        };
+        
+        await this.placeOrder(this.deliveryDistance, addressInfo, customerInfo);
     },
 
     // --- Place Order (send to backend API + WhatsApp) ---
-    async placeOrder(distance, address) {
+    async placeOrder(distance, address, customer) {
         try {
-            // Prepare order data
+            // Prepare order data with enhanced customer info
             const orderData = {
                 items: this.items.map(i => ({
                     id: i.id,
@@ -309,6 +339,7 @@ const Cart = {
                 })),
                 total: this.getTotal(),
                 distance: parseFloat((distance / 1000).toFixed(2)), // Convert to km
+                customer: customer,
                 address: address,
                 userLocation: this.userLocation
             };
@@ -342,12 +373,28 @@ const Cart = {
             const result = await response.json();
             const order = result.order;
 
-            // Build WhatsApp message
+            // Build enhanced WhatsApp message with customer info
             const orderText = this.items.map(item =>
                 `• ${item.name} ×${item.qty} — ₹${item.price * item.qty}`
             ).join('\n');
 
-            const message = `🛒 *New Order ${order.orderNum} — Amora Café*\n\n${orderText}\n\n💰 *Total: ₹${this.getTotal()}*\n📍 L-Axis Building\n🏠 Flat ${address.flatNumber}, ${address.wingName}\n\nPlease confirm my order!`;
+            const deliveryNote = address.deliveryNotes ? `\n📝 *Note:* ${address.deliveryNotes}` : '';
+            
+            const message = `🛒 *New Order ${order.orderNum} — Amora Café*
+
+👤 *Customer:* ${customer.name}
+📱 *Phone:* ${customer.phone}${customer.email ? `\n📧 *Email:* ${customer.email}` : ''}
+
+📦 *Order Items:*
+${orderText}
+
+💰 *Total: ₹${this.getTotal()}*
+
+📍 *Delivery Address:*
+L-Axis Building
+Flat ${address.flatNumber}, ${address.wingName}${deliveryNote}
+
+Please confirm my order! 😊`;
             const encoded = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/919876543210?text=${encoded}`;
 
