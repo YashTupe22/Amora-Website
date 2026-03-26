@@ -11,7 +11,7 @@ const Cart = {
     // ==========================================
     CAFE_LAT: 18.6298,   // L-Axis Building, PCMC, Pune
     CAFE_LNG: 73.7968,   // L-Axis Building
-    MAX_DELIVERY_RADIUS_M: 50,  // Maximum delivery radius in meters (strict - L-Axis Building only)
+    MAX_DELIVERY_RADIUS_M: 100000,  // Maximum delivery radius in meters (100km for testing)
 
     // --- Init ---
     init() {
