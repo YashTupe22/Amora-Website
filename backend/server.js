@@ -9,6 +9,9 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 
+// In-memory storage for Vercel (since file system is ephemeral)
+let memoryOrders = [];
+
 // CORS Configuration
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173'];
 const io = new Server(server, {
@@ -29,27 +32,50 @@ app.use(express.urlencoded({ extended: true }));
 
 // Configuration
 const PORT = process.env.PORT || 3001;
-const ORDERS_FILE = path.join(__dirname, 'data', 'orders.json');
+const ORDERS_FILE = process.env.VERCEL ? '/tmp/orders.json' : path.join(__dirname, 'data', 'orders.json');
 
-// Utility: Read orders from JSON file
+// Utility: Read orders (file system or memory)
 async function readOrders() {
+    // Use in-memory storage on Vercel
+    if (process.env.VERCEL) {
+        console.log(`Reading from memory: ${memoryOrders.length} orders`);
+        return memoryOrders;
+    }
+    
+    // Use file system locally
     try {
         const data = await fs.readFile(ORDERS_FILE, 'utf8');
         return JSON.parse(data);
     } catch (error) {
         if (error.code === 'ENOENT') {
+            console.log('Orders file not found, creating empty array');
             await writeOrders([]);
             return [];
         }
+        console.error('Error reading orders file:', error);
         throw error;
     }
 }
 
-// Utility: Write orders to JSON file (atomic)
+// Utility: Write orders (file system or memory)
 async function writeOrders(orders) {
-    const tempFile = ORDERS_FILE + '.tmp';
-    await fs.writeFile(tempFile, JSON.stringify(orders, null, 2), 'utf8');
-    await fs.rename(tempFile, ORDERS_FILE);
+    // Use in-memory storage on Vercel
+    if (process.env.VERCEL) {
+        memoryOrders = [...orders];
+        console.log(`Saved to memory: ${orders.length} orders`);
+        return;
+    }
+    
+    // Use file system locally
+    try {
+        const tempFile = ORDERS_FILE + '.tmp';
+        await fs.writeFile(tempFile, JSON.stringify(orders, null, 2), 'utf8');
+        await fs.rename(tempFile, ORDERS_FILE);
+        console.log(`Successfully wrote ${orders.length} orders to file`);
+    } catch (error) {
+        console.error('Error writing orders file:', error);
+        throw error;
+    }
 }
 
 // API ROUTES
@@ -73,16 +99,23 @@ app.get('/api/orders', async (req, res) => {
 
 app.post('/api/orders', async (req, res) => {
     try {
+        console.log('Received order request:', req.body);
         const { items, total, distance, address, userLocation } = req.body;
+        
         if (!items || !Array.isArray(items) || items.length === 0) {
+            console.log('Invalid items:', items);
             return res.status(400).json({ success: false, error: 'Invalid items' });
         }
         if (!total || typeof total !== 'number') {
+            console.log('Invalid total:', total);
             return res.status(400).json({ success: false, error: 'Invalid total' });
         }
         if (!address || !address.flatNumber || !address.wingName) {
+            console.log('Invalid address:', address);
             return res.status(400).json({ success: false, error: 'Address required' });
         }
+        
+        console.log('Validation passed, creating order...');
         const orders = await readOrders();
         const orderNum = 'A' + String(orders.length + 1).padStart(3, '0');
         const newOrder = {
@@ -97,13 +130,20 @@ app.post('/api/orders', async (req, res) => {
             placedAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
         };
+        
+        console.log('Created order:', newOrder.orderNum);
         orders.unshift(newOrder);
         await writeOrders(orders);
+        
+        console.log('Broadcasting order to dashboard...');
         io.emit('order:new', newOrder);
+        
+        console.log('Order created successfully:', newOrder.orderNum);
         res.status(201).json({ success: true, order: newOrder });
     } catch (error) {
-        console.error('Error creating order:', error);
-        res.status(500).json({ success: false, error: 'Failed to create order' });
+        console.error('Error creating order:', error.message);
+        console.error('Stack trace:', error.stack);
+        res.status(500).json({ success: false, error: `Failed to create order: ${error.message}` });
     }
 });
 
