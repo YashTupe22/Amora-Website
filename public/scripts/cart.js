@@ -195,9 +195,9 @@ const Cart = {
             (position) => this.checkDeliveryRange(position),
             (error) => this.handleGeoError(error),
             { 
-                enableHighAccuracy: true, 
-                timeout: 10000, 
-                maximumAge: 60000 
+                enableHighAccuracy: false, // Faster on mobile
+                timeout: 20000, // 20 seconds instead of 10
+                maximumAge: 300000 // 5 minutes cache
             }
         );
     },
@@ -316,19 +316,27 @@ const Cart = {
             // Send to backend API
             const API_BASE = window.location.hostname === 'localhost' 
                 ? 'http://localhost:3001/api' 
-                : 'https://amora-cafe.vercel.app/api';
+                : `${window.location.protocol}//${window.location.hostname}/api`;
             
             const response = await fetch(`${API_BASE}/orders`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(orderData)
+                body: JSON.stringify(orderData),
+                timeout: 15000 // 15 second timeout
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to place order');
+                let errorText = `Server error: ${response.status}`;
+                try {
+                    const errorData = await response.json();
+                    errorText = errorData.error || errorText;
+                } catch (e) {
+                    // If JSON parsing fails, use the status text
+                    errorText = `${response.status}: ${response.statusText}`;
+                }
+                throw new Error(errorText);
             }
 
             const result = await response.json();
@@ -363,10 +371,21 @@ const Cart = {
             }, 1500);
         } catch (error) {
             console.error('Error placing order:', error);
+            
+            let userMessage = 'Failed to place order. Please try again.';
+            
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                userMessage = 'Unable to connect to server. Please check your internet connection and try again.';
+            } else if (error.message.includes('timeout')) {
+                userMessage = 'Request timed out. Please try again with a better connection.';
+            } else if (error.message) {
+                userMessage = error.message;
+            }
+            
             this.showModal(
                 'error',
                 'Order Failed',
-                error.message || 'Failed to place order. Please try again or contact us directly.'
+                `${userMessage}\n\nIf the problem persists, please call us directly or visit the café.`
             );
         }
     },
@@ -374,20 +393,27 @@ const Cart = {
     // --- Handle Geolocation Errors ---
     handleGeoError(error) {
         let message = '';
+        let suggestion = '';
+        
         switch(error.code) {
             case error.PERMISSION_DENIED:
-                message = 'Location access was denied. Please enable location access in your browser settings and try again.';
+                message = 'Location access was denied.';
+                suggestion = 'Please enable location access in your browser settings and try again. On mobile, make sure location services are turned on.';
                 break;
             case error.POSITION_UNAVAILABLE:
-                message = 'Your location could not be determined. Please make sure location services are turned on.';
+                message = 'Your location could not be determined.';
+                suggestion = 'Please make sure you have a stable internet connection and location services are enabled.';
                 break;
             case error.TIMEOUT:
-                message = 'Location request timed out. Please try again.';
+                message = 'Location request timed out.';
+                suggestion = 'This can happen on slower connections. Please try again or move to a location with better signal.';
                 break;
             default:
                 message = 'An unexpected error occurred while getting your location.';
+                suggestion = 'Please refresh the page and try again.';
         }
-        this.showModal('error', 'Location Error', message);
+        
+        this.showModal('error', 'Location Error', `${message}\n\n${suggestion}`);
     },
 
     // --- Close Geo Modal ---
@@ -405,10 +431,23 @@ const Cart = {
         const icon = document.getElementById('modal-icon');
         const titleEl = document.getElementById('modal-title');
         const msgEl = document.getElementById('modal-message');
+        const closeBtn = document.getElementById('modal-close-btn');
 
         icon.textContent = type === 'success' ? '✅' : '⚠️';
         titleEl.textContent = title;
         msgEl.textContent = message;
+
+        // Add retry button for location errors
+        if (title.includes('Location Error')) {
+            closeBtn.textContent = 'Try Again';
+            closeBtn.onclick = () => {
+                this.closeModal();
+                setTimeout(() => this.requestGeoPermission(), 500);
+            };
+        } else {
+            closeBtn.textContent = 'Understood';
+            closeBtn.onclick = () => this.closeModal();
+        }
 
         overlay.classList.add('active');
         document.body.classList.add('no-scroll');
