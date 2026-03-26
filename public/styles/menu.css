@@ -253,5 +253,110 @@
 }
 
 @media (max-width: 480px) {
-    .menu-grid { grid-template-columns: 1fr; }
+    .menu-grid { 
+        grid-template-columns: 1fr; 
+        gap: 16px;
+        padding: 0 4px;
+    }
+    
+    .menu-section { 
+        padding: 50px 0; 
+    }
+    
+    /* Category pills - horizontal scroll on mobile */
+    .category-pills {
+        padding: 8px 16px 20px;
+        gap: 8px;
+        margin: 0 -16px;
+        width: calc(100% + 32px);
+    }
+    
+    .category-pill {
+        padding: 12px 18px;
+        font-size: 0.65rem;
+        letter-spacing: 1.5px;
+    }
+    
+    /* Menu Card Mobile Optimizations */
+    .menu-card {
+        border-radius: 12px;
+    }
+    
+    .menu-card-image-wrap {
+        height: 180px;
+        border-radius: 35% 35% 0 0 / 18% 18% 0 0;
+        margin: 8px 8px 0;
+    }
+    
+    .menu-card-body {
+        padding: 14px 16px 18px;
+    }
+    
+    .menu-card-name {
+        font-size: 1.05rem;
+        margin-bottom: 4px;
+    }
+    
+    .menu-card-desc {
+        font-size: 0.78rem;
+        margin-bottom: 14px;
+        line-height: 1.5;
+    }
+    
+    .menu-card-footer {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .menu-card-price {
+        font-size: 1.05rem;
+    }
+    
+    .menu-add-btn {
+        padding: 12px 20px;
+        font-size: 0.65rem;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .menu-card-price-tag {
+        padding: 5px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .menu-card-veg {
+        top: 10px;
+        left: 10px;
+    }
+    
+    /* Better touch interaction */
+    .menu-card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Touch device specific */
+@media (hover: none) and (pointer: coarse) {
+    .menu-card:hover {
+        transform: none;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .menu-card:active {
+        transform: scale(0.98);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .category-pill:hover {
+        background: transparent;
+        border-color: rgba(143, 175, 140, 0.35);
+        color: var(--color-text-muted);
+    }
+    
+    .category-pill:active,
+    .category-pill.active {
+        background: var(--color-forest);
+        border-color: var(--color-forest);
+        color: var(--color-ivory);
+    }
 }

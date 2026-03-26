@@ -207,4 +207,87 @@
     .nav-link.active {
         color: var(--color-forest) !important;
     }
+    
+    .nav-container {
+        padding: 0 16px;
+    }
+    
+    .nav-logo {
+        font-size: 1.6rem;
+    }
+}
+
+/* ── Extra Small Mobile ── */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 16px 0;
+    }
+    
+    .navbar.scrolled {
+        padding: 10px 0;
+    }
+    
+    .nav-logo {
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+    }
+    
+    .nav-actions {
+        gap: 8px;
+    }
+    
+    .cart-toggle {
+        padding: 10px;
+    }
+    
+    .cart-badge {
+        min-width: 18px;
+        height: 18px;
+        font-size: 0.6rem;
+        top: 4px;
+        right: 2px;
+    }
+    
+    .hamburger {
+        width: 36px;
+        padding: 10px;
+    }
+    
+    .nav-links {
+        gap: 24px;
+        padding: 80px 20px;
+    }
+    
+    .nav-link {
+        font-size: 0.9rem;
+        letter-spacing: 4px;
+        padding: 8px 0;
+    }
+}
+
+/* ── Touch Device Optimizations ── */
+@media (hover: none) and (pointer: coarse) {
+    .nav-link {
+        padding: 12px 4px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .cart-toggle {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .hamburger {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 }
