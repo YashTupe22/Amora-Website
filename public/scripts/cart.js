@@ -396,7 +396,7 @@ Flat ${address.flatNumber}, ${address.wingName}${deliveryNote}
 
 Please confirm my order! 😊`;
             const encoded = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/91866918164?text=${encoded}`;
+            const whatsappUrl = `https://wa.me/918668918164?text=${encoded}`;
 
             // Show success
             this.showModal(

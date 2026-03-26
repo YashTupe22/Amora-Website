@@ -67,7 +67,7 @@ const Booking = {
         const message = `🍽️ *Table Reservation — Amora Cafe*\n\n👤 Name: ${name}\n📱 Phone: ${phone}\n📅 Date: ${formattedDate}\n🕐 Time: ${formattedTime}\n👥 Guests: ${guests}\n${notes ? `📝 Notes: ${notes}` : ''}\n\nPlease confirm my reservation!`;
 
         const encoded = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/91866918164?text=${encoded}`;
+        const whatsappUrl = `https://wa.me/918668918164?text=${encoded}`;
 
         // Show success modal
         Cart.showModal(
