@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order — Amora Café</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── Reset ── */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --forest:  #3D6B4F;
+            --sage:    #8FAF8C;
+            --mint:    #B2CFCA;
+            --seafoam: #C9DDD8;
+            --ivory:   #F8F5EF;
+            --gold:    #C9A84C;
+            --gold-d:  #A8883A;
+            --text:    #2C3830;
+            --muted:   #5A766B;
+            --dim:     #8EA89E;
+            --white:   #FFFFFF;
+            --red:     #C0514A;
+            --green:   #4A8C5C;
+            --bg:      #EFF7F5;
+            --card:    rgba(255,255,255,0.90);
+            --shadow:  0 4px 24px rgba(61,107,79,0.10);
+            --shadow-lg: 0 12px 40px rgba(61,107,79,0.16);
+        }
+        html { font-size:16px; -webkit-font-smoothing:antialiased; }
+        body { 
+            font-family:'Jost',sans-serif; 
+            background:var(--bg); 
+            color:var(--text); 
+            min-height:100vh;
+            padding-top: 80px;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: var(--forest);
+            padding: 0 32px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.18);
+        }
+        .header-logo {
+            font-family:'Cormorant Garamond',serif;
+            font-style: italic;
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--ivory);
+            text-decoration: none;
+        }
+        .header-nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        .nav-link {
+            color: var(--ivory);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: var(--gold);
+        }
+
+        /* ── Main Content ── */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .page-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-style: italic;
+            color: var(--forest);
+            margin-bottom: 12px;
+        }
+        .page-subtitle {
+            color: var(--muted);
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        /* ── Search Form ── */
+        .search-form {
+            background: var(--white);
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 32px;
+            border-top: 3px solid var(--gold);
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: var(--forest);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid rgba(143,175,140,0.25);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--sage);
+            box-shadow: 0 0 0 3px rgba(143,175,140,0.15);
+        }
+        .search-btn {
+            background: var(--forest);
+            color: var(--ivory);
+            padding: 14px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        .search-btn:hover {
+            background: var(--sage);
+        }
+        .search-btn:disabled {
+            background: var(--dim);
+            cursor: not-allowed;
+        }
+
+        /* ── Order Card ── */
+        .order-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border-top: 3px solid var(--gold);
+            margin-bottom: 24px;
+        }
+        .order-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid rgba(143,175,140,0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--forest);
+        }
+        .order-status {
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+        .status-new { background: rgba(201,168,76,0.15); color: #A8883A; }
+        .status-preparing { background: rgba(74,140,92,0.12); color: #3D8057; }
+        .status-ready { background: rgba(61,107,79,0.15); color: #2E5239; }
+        .status-delivered { background: rgba(143,175,140,0.15); color: var(--muted); }
+        .status-cancelled { background: rgba(192,81,74,0.12); color: var(--red); }
+
+        .order-content {
+            padding: 24px 32px;
+        }
+        .order-items {
+            margin-bottom: 24px;
+        }
+        .order-items h4 {
+            font-size: 1rem;
+            color: var(--forest);
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(143,175,140,0.08);
+        }
+        .item-row:last-child {
+            border-bottom: none;
+        }
+        .item-name {
+            font-weight: 400;
+            color: var(--text);
+        }
+        .item-qty {
+            background: rgba(143,175,140,0.2);
+            color: var(--forest);
+            padding: 2px 8px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 12px;
+        }
+        .item-price {
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .order-total {
+            text-align: center;
+            padding: 16px 0;
+            border-top: 2px solid rgba(143,175,140,0.15);
+            margin-top: 16px;
+        }
+        .total-amount {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            color: var(--forest);
+            font-weight: 500;
+        }
+
+        /* ── Delivery Info ── */
+        .delivery-info {
+            background: rgba(143,175,140,0.08);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 24px;
+        }
+        .delivery-info h4 {
+            color: var(--forest);
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        .delivery-boy {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--white);
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+        .delivery-icon {
+            font-size: 1.5rem;
+        }
+        .delivery-details {
+            flex: 1;
+        }
+        .delivery-name {
+            font-weight: 600;
+            color: var(--forest);
+            margin-bottom: 4px;
+        }
+        .delivery-phone {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* ── Status Timeline ── */
+        .status-timeline {
+            margin-top: 32px;
+        }
+        .timeline-title {
+            color: var(--forest);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--sage);
+            border-radius: 50%;
+        }
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 16px;
+            width: 2px;
+            height: calc(100% + 8px);
+            background: rgba(143,175,140,0.3);
+        }
+        .timeline-content {
+            flex: 1;
+        }
+        .timeline-status {
+            font-weight: 600;
+            color: var(--forest);
+            margin-bottom: 4px;
+        }
+        .timeline-note {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        .timeline-time {
+            color: var(--dim);
+            font-size: 0.8rem;
+        }
+
+        /* ── Error/Loading States ── */
+        .loading, .error, .not-found {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+        }
+        .error {
+            color: var(--red);
+        }
+        .not-found {
+            color: var(--muted);
+        }
+
+        /* ── Mobile Responsive ── */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 16px;
+            }
+            .search-form, .order-content {
+                padding: 20px;
+            }
+            .order-header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+                padding: 20px;
+            }
+            .header {
+                padding: 0 16px;
+            }
+            .header-logo {
+                font-size: 1.4rem;
+            }
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 70px;
+            }
+            .header {
+                height: 56px;
+            }
+            .timeline-item {
+                padding-left: 16px;
+            }
+            .delivery-boy {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="header-logo">Amora Café</a>
+        <nav class="header-nav">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html#menu" class="nav-link">Menu</a>
+            <a href="index.html#contact" class="nav-link">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Track Your Order</h1>
+            <p class="page-subtitle">Enter your order number to see real-time status updates</p>
+        </div>
+
+        <!-- Search Form -->
+        <form class="search-form" id="tracking-form">
+            <div class="form-group">
+                <label for="order-number" class="form-label">Order Number</label>
+                <input 
+                    type="text" 
+                    id="order-number" 
+                    class="form-input" 
+                    placeholder="e.g., A001" 
+                    required
+                    pattern="A\d{3}"
+                    title="Order number format: A001, A002, etc."
+                >
+            </div>
+            <button type="submit" class="search-btn" id="search-btn">Track Order</button>
+        </form>
+
+        <!-- Order Display -->
+        <div id="order-display"></div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script>
+        class OrderTracker {
+            constructor() {
+                this.socket = null;
+                this.currentOrderNum = null;
+                this.initializeElements();
+                this.bindEvents();
+            }
+
+            initializeElements() {
+                this.form = document.getElementById('tracking-form');
+                this.orderInput = document.getElementById('order-number');
+                this.searchBtn = document.getElementById('search-btn');
+                this.orderDisplay = document.getElementById('order-display');
+            }
+
+            bindEvents() {
+                this.form.addEventListener('submit', (e) => this.handleSearch(e));
+                
+                // Check URL parameters for order number
+                const urlParams = new URLSearchParams(window.location.search);
+                const orderNum = urlParams.get('order');
+                if (orderNum) {
+                    this.orderInput.value = orderNum;
+                    this.trackOrder(orderNum);
+                }
+            }
+
+            async handleSearch(e) {
+                e.preventDefault();
+                const orderNum = this.orderInput.value.trim().toUpperCase();
+                if (orderNum) {
+                    this.trackOrder(orderNum);
+                }
+            }
+
+            async trackOrder(orderNum) {
+                this.setLoading(true);
+                this.currentOrderNum = orderNum;
+                
+                try {
+                    const API_BASE = window.location.hostname === 'localhost' 
+                        ? 'http://localhost:3001/api' 
+                        : `${window.location.protocol}//${window.location.hostname}/api`;
+                    
+                    const response = await fetch(`${API_BASE}/orders/track/${orderNum}`);
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.displayOrder(data.order);
+                        this.setupRealTimeUpdates(orderNum);
+                    } else {
+                        this.showError('Order not found. Please check your order number.');
+                    }
+                } catch (error) {
+                    console.error('Error tracking order:', error);
+                    this.showError('Unable to track order. Please try again.');
+                } finally {
+                    this.setLoading(false);
+                }
+            }
+
+            setupRealTimeUpdates(orderNum) {
+                if (this.socket) {
+                    this.socket.disconnect();
+                }
+
+                const socketUrl = window.location.hostname === 'localhost' 
+                    ? 'http://localhost:3001' 
+                    : window.location.origin;
+                
+                this.socket = io(socketUrl);
+                
+                this.socket.on(`order:${orderNum}:updated`, (order) => {
+                    console.log('Order updated:', order);
+                    this.displayOrder(order);
+                });
+            }
+
+            displayOrder(order) {
+                const deliveryBoyInfo = order.deliveryBoy && (order.deliveryBoy.name || order.deliveryBoy.phone) 
+                    ? `
+                        <div class="delivery-info">
+                            <h4>🚚 Delivery Information</h4>
+                            <div class="delivery-boy">
+                                <div class="delivery-icon">👤</div>
+                                <div class="delivery-details">
+                                    <div class="delivery-name">${order.deliveryBoy.name || 'Delivery Partner'}</div>
+                                    <div class="delivery-phone">📱 ${order.deliveryBoy.phone || 'Contact through café'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                    : '';
+
+                const statusHistory = order.statusHistory && order.statusHistory.length > 0
+                    ? `
+                        <div class="status-timeline">
+                            <h4 class="timeline-title">📋 Order Timeline</h4>
+                            ${order.statusHistory.map(item => `
+                                <div class="timeline-item">
+                                    <div class="timeline-content">
+                                        <div class="timeline-status">${this.formatStatus(item.status)}</div>
+                                        <div class="timeline-note">${item.note}</div>
+                                        <div class="timeline-time">${this.formatTime(item.timestamp)}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `
+                    : '';
+
+                this.orderDisplay.innerHTML = `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-number">Order ${order.orderNum}</div>
+                            <div class="order-status status-${order.status}">${this.formatStatus(order.status)}</div>
+                        </div>
+                        <div class="order-content">
+                            <div class="order-items">
+                                <h4>📦 Order Items</h4>
+                                ${order.items.map(item => `
+                                    <div class="item-row">
+                                        <div>
+                                            <span class="item-name">${item.name}</span>
+                                            <span class="item-qty">×${item.qty}</span>
+                                        </div>
+                                        <span class="item-price">₹${item.price * item.qty}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="order-total">
+                                <div class="total-amount">Total: ₹${order.total}</div>
+                            </div>
+                            ${deliveryBoyInfo}
+                            ${statusHistory}
+                            <div style="text-align: center; margin-top: 24px; color: var(--muted); font-size: 0.9rem;">
+                                <p>Order placed on ${this.formatTime(order.placedAt)}</p>
+                                <p>Last updated: ${this.formatTime(order.updatedAt)}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            formatStatus(status) {
+                const statusMap = {
+                    'new': 'Order Received',
+                    'preparing': 'Preparing',
+                    'ready': 'Ready for Delivery',
+                    'delivered': 'Delivered',
+                    'cancelled': 'Cancelled'
+                };
+                return statusMap[status] || status;
+            }
+
+            formatTime(timestamp) {
+                return new Date(timestamp).toLocaleString('en-IN', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+
+            setLoading(loading) {
+                if (loading) {
+                    this.searchBtn.disabled = true;
+                    this.searchBtn.textContent = 'Tracking...';
+                    this.orderDisplay.innerHTML = '<div class="loading">🔍 Searching for your order...</div>';
+                } else {
+                    this.searchBtn.disabled = false;
+                    this.searchBtn.textContent = 'Track Order';
+                }
+            }
+
+            showError(message) {
+                this.orderDisplay.innerHTML = `<div class="error">❌ ${message}</div>`;
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new OrderTracker();
+        });
+    </script>
+</body>
+</html>

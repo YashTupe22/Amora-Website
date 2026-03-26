@@ -139,6 +139,18 @@ app.post('/api/orders', async (req, res) => {
                 wingName: address.wingName.trim(),
                 deliveryNotes: address.deliveryNotes?.trim() || null
             },
+            deliveryBoy: {
+                name: null,
+                phone: null,
+                assignedAt: null
+            },
+            statusHistory: [
+                {
+                    status: 'new',
+                    timestamp: new Date().toISOString(),
+                    note: 'Order placed by customer'
+                }
+            ],
             userLocation: userLocation || null,
             placedAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
@@ -163,24 +175,105 @@ app.post('/api/orders', async (req, res) => {
 app.patch('/api/orders/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { status } = req.body;
-        const validStatuses = ['new', 'preparing', 'ready', 'delivered', 'cancelled'];
-        if (!validStatuses.includes(status)) {
-            return res.status(400).json({ success: false, error: 'Invalid status' });
-        }
+        const { status, deliveryBoy, note } = req.body;
+        
         const orders = await readOrders();
         const orderIndex = orders.findIndex(o => o.id === id);
         if (orderIndex === -1) {
             return res.status(404).json({ success: false, error: 'Order not found' });
         }
-        orders[orderIndex].status = status;
-        orders[orderIndex].updatedAt = new Date().toISOString();
-        await writeOrders(orders);
-        io.emit('order:updated', orders[orderIndex]);
-        res.json({ success: true, order: orders[orderIndex] });
+        
+        const order = orders[orderIndex];
+        let updated = false;
+        
+        // Update status if provided
+        if (status) {
+            const validStatuses = ['new', 'preparing', 'ready', 'delivered', 'cancelled'];
+            if (!validStatuses.includes(status)) {
+                return res.status(400).json({ success: false, error: 'Invalid status' });
+            }
+            if (order.status !== status) {
+                order.status = status;
+                // Add to status history
+                if (!order.statusHistory) {
+                    order.statusHistory = [];
+                }
+                order.statusHistory.push({
+                    status: status,
+                    timestamp: new Date().toISOString(),
+                    note: note || `Status changed to ${status}`
+                });
+                updated = true;
+            }
+        }
+        
+        // Update delivery boy if provided
+        if (deliveryBoy) {
+            if (!order.deliveryBoy) {
+                order.deliveryBoy = {};
+            }
+            if (deliveryBoy.name) order.deliveryBoy.name = deliveryBoy.name.trim();
+            if (deliveryBoy.phone) order.deliveryBoy.phone = deliveryBoy.phone.trim();
+            if (deliveryBoy.name || deliveryBoy.phone) {
+                order.deliveryBoy.assignedAt = new Date().toISOString();
+                // Add to status history
+                if (!order.statusHistory) {
+                    order.statusHistory = [];
+                }
+                order.statusHistory.push({
+                    status: order.status,
+                    timestamp: new Date().toISOString(),
+                    note: `Delivery boy assigned: ${deliveryBoy.name} (${deliveryBoy.phone})`
+                });
+                updated = true;
+            }
+        }
+        
+        if (updated) {
+            order.updatedAt = new Date().toISOString();
+            await writeOrders(orders);
+            
+            // Broadcast to dashboard and customer tracking
+            io.emit('order:updated', order);
+            io.emit(`order:${order.orderNum}:updated`, order);
+            
+            console.log(`Order ${order.orderNum} updated:`, { status: order.status, deliveryBoy: order.deliveryBoy });
+        }
+        
+        res.json({ success: true, order: order });
     } catch (error) {
         console.error('Error updating order:', error);
         res.status(500).json({ success: false, error: 'Failed to update order' });
+    }
+});
+
+// Customer order tracking endpoint
+app.get('/api/orders/track/:orderNum', async (req, res) => {
+    try {
+        const { orderNum } = req.params;
+        const orders = await readOrders();
+        const order = orders.find(o => o.orderNum === orderNum);
+        
+        if (!order) {
+            return res.status(404).json({ success: false, error: 'Order not found' });
+        }
+        
+        // Return customer-safe order information
+        const customerOrder = {
+            orderNum: order.orderNum,
+            status: order.status,
+            items: order.items,
+            total: order.total,
+            deliveryBoy: order.deliveryBoy,
+            statusHistory: order.statusHistory || [],
+            placedAt: order.placedAt,
+            updatedAt: order.updatedAt
+        };
+        
+        res.json({ success: true, order: customerOrder });
+    } catch (error) {
+        console.error('Error tracking order:', error);
+        res.status(500).json({ success: false, error: 'Failed to track order' });
     }
 });
 
