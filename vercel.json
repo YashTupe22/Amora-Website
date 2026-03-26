@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/index.js",
+      "src": "api/**/*.js",
       "use": "@vercel/node"
     }
   ],
@@ -14,18 +14,6 @@
     {
       "src": "/socket.io/(.*)",
       "dest": "/api/index.js"
-    },
-    {
-      "src": "/(.*\\.(css|js|json|jpeg|jpg|png|svg|ico|woff|woff2|ttf|eot))",
-      "dest": "/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/order-dashboard",
-      "dest": "/order-dashboard.html"
     },
     {
       "src": "/(.*)",

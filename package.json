@@ -2,11 +2,20 @@
   "name": "amora-cafe-website",
   "version": "1.0.0",
   "description": "Amora Café - Complete website with backend ordering system",
-  "main": "backend/server.js",
+  "main": "api/index.js",
   "scripts": {
     "start": "node backend/server.js",
     "dev": "cd backend && npm run dev",
-    "install-backend": "cd backend && npm install"
+    "vercel-build": "echo 'Build complete'"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "keywords": ["cafe", "restaurant", "ordering"],
   "author": "Amora Café",
