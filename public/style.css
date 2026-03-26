@@ -1582,11 +1582,39 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 /* Address Modal */
 .address-modal-box {
     max-width: 440px;
+    max-height: 85vh; /* Limit height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    display: flex;
+    flex-direction: column; /* Allow proper flex layout */
 }
 
+/* Ensure form container allows scrolling */
 .address-form {
     width: 100%;
     margin-top: 24px;
+    overflow: visible; /* Allow content to flow */
+    flex: 1; /* Take available space */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Make form sections flexible */
+.form-section {
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Ensure modal header elements are fixed at top */
+.modal-icon,
+.modal-box h3,
+.modal-box p {
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Make action buttons stick to bottom */
+.address-modal-actions {
+    flex-shrink: 0; /* Prevent shrinking */
+    margin-top: auto; /* Push to bottom */
 }
 
 .form-section {
@@ -1911,15 +1939,18 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
     .footer-link { font-size: 0.7rem; }
     
     /* Modals */
-    .geo-permission-modal,
-    .address-modal {
+    .modal-box,
+    .address-modal-box {
         width: calc(100% - 32px);
         padding: 24px 20px;
-        max-height: 90vh;
-        overflow-y: auto;
+        max-height: 85vh; /* Allow more space for content */
+        overflow-y: auto; /* Ensure scrolling works */
+        -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
     }
-    .address-modal h3 { font-size: 1.3rem; }
-    .address-modal input {
+    
+    .address-modal-box h3 { font-size: 1.3rem; }
+    .address-modal-box input,
+    .address-modal-box textarea {
         padding: 14px;
         font-size: 16px; /* Prevents iOS zoom */
     }
@@ -2006,6 +2037,95 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
     .nav-links.active {
         padding: 60px 0 20px;
         gap: 16px;
+    }
+    
+    /* Address modal for landscape phones - more aggressive height limiting */
+    .address-modal-box {
+        max-height: 70vh;
+        padding: 16px 20px;
+    }
+    
+    .form-section {
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+    }
+    
+    .form-group {
+        margin-bottom: 12px;
+    }
+}
+
+/* --- Very Short Screens (any width) --- */
+@media (max-height: 600px) {
+    .address-modal-box {
+        max-height: 80vh;
+        padding: 16px 20px;
+    }
+    
+    .modal-icon {
+        font-size: 2rem;
+        margin-bottom: 12px;
+    }
+    
+    .modal-box h3 {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+    
+    .modal-box p {
+        font-size: 0.85rem;
+        margin-bottom: 16px;
+    }
+    
+    .form-section {
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+    }
+    
+    .form-section h4 {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+    
+    .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .address-modal-actions {
+        margin-top: 16px;
+    }
+}
+
+/* --- Extra Small Heights --- */
+@media (max-height: 480px) {
+    .address-modal-box {
+        max-height: 75vh;
+        padding: 12px 16px;
+    }
+    
+    .form-section {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+    }
+    
+    .form-group {
+        margin-bottom: 10px;
+    }
+    
+    .form-group label {
+        font-size: 0.75rem;
+        margin-bottom: 6px;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .modal-btn {
+        padding: 10px 24px;
+        font-size: 0.65rem;
     }
 }
 
