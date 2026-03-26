@@ -234,7 +234,7 @@ CAFE_NAME=L-Axis Building
 MAX_DELIVERY_RADIUS_METERS=50
 
 # WhatsApp Integration
-WHATSAPP_NUMBER=919876543210
+WHATSAPP_NUMBER=91866918164
 
 # CORS Settings (comma-separated allowed origins)
 ALLOWED_ORIGINS=http://localhost:5173,https://amora-cafe.vercel.app
