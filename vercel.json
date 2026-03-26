@@ -2,25 +2,34 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/server.js",
+      "src": "api/index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "backend/server.js"
+      "dest": "/api/index.js"
     },
     {
       "src": "/socket.io/(.*)",
-      "dest": "backend/server.js"
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/(.*\\.(css|js|json|jpeg|jpg|png|svg|ico|woff|woff2|ttf|eot))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/order-dashboard",
+      "dest": "/order-dashboard.html"
     },
     {
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
